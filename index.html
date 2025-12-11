@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcellAI × Google Cloud - Agentic Data Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4285F4;
+            --secondary: #34A853;
+            --accent: #EA4335;
+            --dark-bg: #0F1419;
+            --darker-bg: #0A0E13;
+            --card-bg: rgba(30, 35, 42, 0.7);
+            --text: #E8EAED;
+            --text-light: #9AA0A6;
+            --border: rgba(66, 133, 244, 0.2);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #1a1f26 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 32px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: var(--text-light);
+            font-weight: 300;
+            border-left: 2px solid var(--border);
+            padding-left: 15px;
+        }
+
+        .cloud-badge {
+            background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main Content - Three Column Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .column {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .column-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(66, 133, 244, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--primary);
+        }
+
+        .column-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            transition: background 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(66, 133, 244, 0.08);
+        }
+
+        .feature-icon {
+            color: var(--secondary);
+            margin-right: 15px;
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+        .feature-text h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Integration Section */
+        .integrations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .integration-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .integration-item:hover {
+            border-color: var(--primary);
+            background: rgba(66, 133, 244, 0.1);
+            transform: scale(1.05);
+        }
+
+        .integration-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .integration-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .tagline {
+                border-left: none;
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-robot logo-icon"></i>
+                    <span class="logo-text">ArcellAI</span>
+                </div>
+                <div class="tagline">The Agentic Data Layer for Deep Tech R&D</div>
+            </div>
+            <div class="cloud-badge">
+                <i class="fab fa-google"></i>
+                Google Cloud Solution
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Column: Solution Overview -->
+            <div class="column">
+                <div class="column-header">
+                    <div class="column-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h2 class="column-title">Solution Overview</h2>
+                </div>
+                <p style="margin-bottom: 20px; color: var(--text-light);">
+                    ArcellAI is an AI-driven autonomous data platform built on Google Cloud, designed to accelerate R&D workflows in biotech and biomanufacturing by transforming fragmented data processes into secure, reproducible, and scalable agentic pipelines.
+                </p>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-bolt feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Agentic AI Scientists</h4>
+                            <p>Powered by Vertex AI for multimodal reasoning and automated model training</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-database feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Unified Data Layer</h4>
+                            <p>BigQuery & Cloud Storage provide high-performance querying and data harmonization</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-cogs feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Elastic Orchestration</h4>
+                            <p>Cloud Run & GKE orchestrate containerized agent workflows with auto-scaling</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-value">80%</div>
+                        <div class="stat-label">Data Workflow Automation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">10x</div>
+                        <div class="stat-label">Faster Time-to-Insight</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Column: Google Cloud Integration -->
+            <div class="column">
+                <div class="column-header">
+                    <div class="column-icon">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <h2 class="column-title">Google Cloud Integration</h2>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="color: var(--text); margin-bottom: 15px; font-size: 18px;">Core Google Cloud Services</h3>
+                    <div class="integrations">
+                        <div class="integration-item">
+                            <i class="fas fa-brain integration-icon"></i>
+                            <div class="integration-name">Vertex AI</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-search integration-icon"></i>
+                            <div class="integration-name">BigQuery</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-hdd integration-icon"></i>
+                            <div class="integration-name">Cloud Storage</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-server integration-icon"></i>
+                            <div class="integration-name">Cloud Run</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-cube integration-icon"></i>
+                            <div class="integration-name">GKE</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-chart-line integration-icon"></i>
+                            <div class="integration-name">Looker</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-shield-alt integration-icon"></i>
+                            <div class="integration-name">Cloud IAM</div>
+                        </div>
+                        <div class="integration-item">
+                            <i class="fas fa-eye integration-icon"></i>
+                            <div class="integration-name">Security Command Center</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Advanced Scientific Reasoning</h4>
+                            <p>Vertex AI Pipelines orchestrate agent-driven experimentation loops</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Real-Time Analytics</h4>
+                            <p>Looker integrates with semantic layer for dashboards & KPI tracking</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Enterprise Compliance</h4>
+                            <p>HIPAA/GxP-aligned governance with Cloud IAM & Security Command Center</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Business Impact -->
+            <div class="column">
+                <div class="column-header">
+                    <div class="column-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h2 class="column-title">Business Impact</h2>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: var(--text-light);">
+                    By building on Google Cloud, ArcellAI transforms fragmented scientific workflows into autonomous, reproducible pipelines that significantly shorten time-to-insight—from months to hours.
+                </p>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Accelerated R&D Cycles</h4>
+                            <p>Reduce experimental iteration time from months to hours with automated data pipelines</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-vial feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Reproducible Science</h4>
+                            <p>Full data provenance and versioning ensures auditability and regulatory compliance</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-expand-arrows-alt feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Elastic Scalability</h4>
+                            <p>Handle petabytes of multimodal experimental data with Google Cloud's auto-scaling infrastructure</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-user-shield feature-icon"></i>
+                        <div class="feature-text">
+                            <h4>Enterprise Security</h4>
+                            <p>Granular access controls, audit logging, and continuous monitoring for sensitive research data</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="https://arcellai.tech" class="cta-button" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Explore ArcellAI Platform
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 ArcellAI. Formerly Apliko. All rights reserved.</p>
+            <p>Built on the PyTDC publication at ICML 2025. The agentic data layer for R&D.</p>
+            
+            <div class="footer-links">
+                <a href="mailto:alex@arcellai.tech">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+                <a href="https://arcellai.tech">
+                    <i class="fas fa-globe"></i> Website
+                </a>
+                <a href="https://github.com">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#">
+                    <i class="fas fa-file-alt"></i> Case Studies
+                </a>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 13px; opacity: 0.7;">
+                Solution Partner: Google Cloud | Target Industries: Healthcare & Life Sciences, Industrial Manufacturing, Biotech
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple animation for stats
+        document.addEventListener('DOMContentLoaded', function() {
+            const statValues = document.querySelectorAll('.stat-value');
+            
+            statValues.forEach(stat => {
+                const originalText = stat.textContent;
+                stat.textContent = '0';
+                
+                const targetValue = originalText.replace('%', '').replace('x', '');
+                const isPercent = originalText.includes('%');
+                const isMultiplier = originalText.includes('x');
+                
+                let current = 0;
+                const increment = targetValue / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= targetValue) {
+                        current = targetValue;
+                        clearInterval(timer);
+                    }
+                    
+                    if (isPercent) {
+                        stat.textContent = Math.round(current) + '%';
+                    } else if (isMultiplier) {
+                        stat.textContent = Math.round(current) + 'x';
+                    }
+                }, 30);
+            });
+            
+            // Add hover effect to integration items
+            const integrationItems = document.querySelectorAll('.integration-item');
+            integrationItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.integration-icon');
+                    icon.style.transform = 'scale(1.2)';
+                    icon.style.transition = 'transform 0.2s ease';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.integration-icon');
+                    icon.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
