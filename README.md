@@ -1,0 +1,1 @@
+# arcellai-google-cloud-solution
